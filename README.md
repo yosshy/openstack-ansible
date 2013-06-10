@@ -86,7 +86,6 @@ LAN で接続されている必要があります。外部 LAN で接続され�
 
  6. hosts_* を参考に ansible_hosts ファイルを作成します。hosts_* はそれ
     ぞれ以下の構成例です。
-
     * hosts_allinone : １サーバ構成（オールインワン）
     * hosts_2roles : 制御ノード＋VMホスト構成
     * hosts_3roles : 制御ノード＋VMホスト＋ネットワークゲートウェイ構成
