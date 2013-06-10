@@ -52,21 +52,27 @@ Ansible Playbooks for OpenStack Grizzly
     内部 LAN 共に DHCP でも構いませんが、DHCP を使用しない場合はOS イン
     ストール時に各ネットワークのパラメータを設定する必要があります。
  2. Python の開発環境をインストールします。
+
      ```
      sudo apt-get install -y python-dev
      ```
+
  3. git で ansible をインストールします。
+
      ```
      git clone https://github.com/ansible/ansible.git
      cd ansible
      python setup.py build
      sudo -E python setup.py install
      ```
+
  4. 本ツールを展開します。
+
      ```
      git clone https://github.com/yosshy/openstack-ansible.git
      cd openstack-ansible
      ```
+
  5. /etc/hosts に OpenStack インストール先サーバの設定を行います。
  6. hosts_* を参考に ansible_hosts ファイルを作成します。
     hosts_* はそれぞれ以下の構成例です。
