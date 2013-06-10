@@ -1,0 +1,5 @@
+#!/bin/sh
+
+
+ip link set {{ my_ext_if }} up
+ip link set dev br-ex up

@@ -1,0 +1,4 @@
+- name: ensure rabbitmq-server packages are installed
+  apt: pkg=rabbitmq-server
+
+- meta: flush_handlers

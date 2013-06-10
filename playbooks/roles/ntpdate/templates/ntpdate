@@ -1,0 +1,2 @@
+ntpdate {{ ntp_server }}
+hwclock -w

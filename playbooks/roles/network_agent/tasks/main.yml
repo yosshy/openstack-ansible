@@ -1,0 +1,50 @@
+---
+- name: ensure quantum database user is present
+  mysql_user: >
+      name=quantum
+      host=$item
+      password=${quantum_db_password}
+      priv=quantum.*:ALL
+  with_items:
+    - $my_int_ip
+  delegate_to: ${first_host.controller}
+
+- name: ensure quantum-plugin-openvswitch-agent package is installed
+  apt: name=$item
+  with_items:
+    - quantum-plugin-openvswitch-agent
+    - python-mysqldb
+
+- name: ensure ovs_quantum_plugin.ini file is configured
+  template: >
+        src=ovs_quantum_plugin.ini
+        dest=/etc/quantum/plugins/openvswitch/ovs_quantum_plugin.ini
+        owner=quantum group=quantum mode=0660 backup=yes
+
+- name: ensure ovs_quantum_plugin.ini file is configured (update check)
+  template: >
+        src=ovs_quantum_plugin.ini
+        dest=/etc/quantum/plugins/openvswitch/.ovs_quantum_plugin.ini.openvswitch-agent
+        owner=quantum group=quantum mode=0660 backup=yes
+  notify: restart ovs-agent
+
+- name: ensure quantum.conf file is configured
+  template: >
+        src=quantum.conf
+        dest=/etc/quantum/quantum.conf
+        owner=quantum group=quantum mode=0660 backup=yes
+
+- name: ensure quantum.conf file is configured (update check)
+  template: >
+        src=quantum.conf
+        dest=/etc/quantum/.quantum.conf.openvswitch-agent
+        owner=quantum group=quantum mode=0660 backup=yes
+  notify: restart ovs-agent
+
+- name: ensure quantum_sudoers file is configured
+  copy: >
+        src=quantum_sudoers
+        dest=/etc/sudoers.d/quantum_sudoers
+        owner=root group=root mode=0440 backup=yes
+
+- meta: flush_handlers

@@ -1,0 +1,12 @@
+---
+- name: set up frontend node(s)
+  hosts: frontend
+  gather_facts: yes
+  sudo: yes
+  roles:
+    - identity
+    - image_frontend
+    - volume_frontend
+    - network_controller
+    - compute_frontend
+    - dashboard

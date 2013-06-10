@@ -1,0 +1,17 @@
+- name: ensure OpenStack-related system group is present
+  group: >
+      name=${item.name}
+      gid=${item.gid}
+      system=yes
+  with_items: $system_group
+
+- name: ensure OpenStack-related system user is present
+  user: >
+      name=${item.name}
+      uid=${item.uid}
+      home=/var/lib/${item.name}
+      group=${item.name}
+      system=yes
+  with_items: $system_user
+
+- meta: flush_handlers

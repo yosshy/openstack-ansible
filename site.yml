@@ -1,0 +1,6 @@
+- include: playbooks/common.yml
+- include: playbooks/controller.yml
+- include: playbooks/frontend.yml
+- include: playbooks/network_gateway.yml
+- include: playbooks/volume_backend.yml
+- include: playbooks/compute_backend.yml

@@ -1,0 +1,52 @@
+---
+- name: ensure nova database user is present
+  mysql_user: >
+      name=nova
+      host=$item
+      password=$nova_db_password
+      priv=nova.*:ALL
+  with_items:
+    - $my_int_ip
+  delegate_to: ${first_host.controller}
+
+- name: ensure nova packages are installed
+  apt: pkg=$item
+  with_items:
+    - nova-api
+    - nova-novncproxy
+    - novnc
+    - python-mysqldb
+
+- name: ensure api-paste.ini file is configured
+  copy: >
+        src=api-paste.ini
+        dest=/etc/nova/api-paste.ini
+        owner=nova
+        group=nova
+        mode=0660
+        backup=yes
+  notify:
+    - ensure nova-api are restarted
+
+- name: ensure nova.conf file is configured
+  template: >
+        src=nova.conf
+        dest=/etc/nova/nova.conf
+        owner=nova
+        group=nova
+        mode=0660
+        backup=yes
+
+- name: ensure nova.conf file is configured (update check)
+  template: >
+        src=nova.conf
+        dest=/etc/nova/.nova.con.frontendf
+        owner=nova
+        group=nova
+        mode=0660
+        backup=yes
+  notify:
+    - ensure nova-api are restarted
+    - ensure nova-novncproxy are restarted
+
+- meta: flush_handlers

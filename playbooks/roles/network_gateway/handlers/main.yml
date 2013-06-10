@@ -1,0 +1,12 @@
+---
+- name: restart l3 agent
+  action: service name=quantum-l3-agent state=restarted
+
+- name: restart dhcp agent
+  action: service name=quantum-dhcp-agent state=restarted
+
+- name: restart lbaas agent
+  action: service name=quantum-lbaas-agent state=restarted
+
+- name: restart metadata agent
+  action: service name=quantum-metadata-agent state=restarted

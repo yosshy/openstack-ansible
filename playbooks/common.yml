@@ -1,0 +1,21 @@
+- name: set up basic configuration.
+  hosts: all
+  gather_facts: yes
+  sudo: yes
+  roles:
+    - common
+    - apt
+    - os_account
+    - role: ovs_int
+      when: "'network_gateway' in group_names or 'compute_backend' in group_names"
+    - role: ovs_ext
+      when: "'network_gateway' in group_names"
+    - role: nic
+      when: "'network_gateway' not in group_names"
+    - role: nic_ext
+      when: "'network_gateway' in group_names"
+    - role: ntp
+      when: "ntp_server in ansible_all_ipv4_addresses"
+    - role: ntpdate
+      when: "ntp_server not in ansible_all_ipv4_addresses"
+    - set_vars

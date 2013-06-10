@@ -1,0 +1,5 @@
+- name: ensure nova-api are restarted
+  service: name=nova-api state=restarted
+
+- name: ensure nova-novncproxy are restarted
+  service: name=nova-novncproxy state=restarted

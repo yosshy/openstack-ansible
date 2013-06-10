@@ -1,0 +1,50 @@
+---
+#
+log_debug: True
+log_verbose: False
+
+# first_host
+
+first_host: 
+  controller: ${groups.controller[0]}
+  frontend: ${groups.frontend[0]}
+  network_gateway: ${groups.network_gateway[0]}
+  volume_backend: ${groups.volume_backend[0]}
+  compute_backend: ${groups.compute_backend[0]}
+
+# network parameters
+
+network_gateway: 192.168.0.254
+network_dns: 192.168.0.254
+
+http_proxy: http://192.168.12.1:8123/
+proxy_env:
+  http_proxy: $http_proxy
+  https_proxy: $http_proxy
+
+# No necessary to define addresses below (for clustering)
+#controller_ip: 192.168.12.109
+#frontend_ext_ip: 192.168.0.141
+#frontend_int_ip: 192.168.12.109
+ntp_server: $controller_ip
+
+# passwords
+
+root_db_password: jab4id9nud3yoyft2i
+keystone_db_password: feld8eib6hu5twiev5
+glance_db_password: rig3ak2yu2heb5hed6
+nova_db_password: cre7eth6ta8grum5ce
+quantum_db_password: quantum
+cinder_db_password: cinder
+
+glance_identity_password: glance
+nova_identity_password: nova
+ec2_identity_password: ec2
+swift_identity_password: swiftpass
+quantum_identity_password: quantum
+cinder_identity_password: cinder
+
+# keystone
+
+admin_token: 012345SECRET99TOKEN012345
+region: RegionOne

@@ -1,0 +1,10 @@
+glance_images:
+  - name: cirros-0.3.0-x86_64
+    url: https://launchpad.net/cirros/trunk/0.3.0/+download/cirros-0.3.0-x86_64-disk.img
+    disk_format: qcow2
+#  - name: ubuntu-12.04-x86_64
+#    url: http://cloud-images.ubuntu.com/precise/current/precise-server-cloudimg-amd64-disk1.img
+#    disk_format: qcow2
+#  - name: ubuntu-13.04-x86_64
+#    url: http://cloud-images.ubuntu.com/raring/current/raring-server-cloudimg-amd64-disk1.img
+#    disk_format: qcow2

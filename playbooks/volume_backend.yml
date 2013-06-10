@@ -1,0 +1,7 @@
+---
+- name: set up volume backend node(s)
+  hosts: volume_backend
+  gather_facts: yes
+  sudo: yes
+  roles:
+    - volume_backend

@@ -1,0 +1,36 @@
+---
+- name: ensure glance database user is present
+  mysql_user: >
+      name=glance
+      host=$item
+      password=${glance_db_password}
+      priv=glance.*:ALL
+  with_items:
+    - $my_int_ip
+  delegate_to: ${first_host.controller}
+  notify:
+    - restart glance-api
+
+- name: ensure glance is installed
+  apt: pkg=$item
+  with_items:
+    - glance
+    - python-mysqldb
+
+- name: ensure glance sqlite is deleted
+  file: dest=/var/lib/glance/glance.sqlite state=absent
+
+- name: ensure glance-api.conf file is configured
+  template: >
+      src=glance-api.conf
+      dest=/etc/glance/glance-api.conf
+      owner=glance
+      group=glance
+      mode=0600
+      backup=yes
+  notify:
+  - restart glance-api
+
+- meta: flush_handlers
+
+- include: fixture.yml

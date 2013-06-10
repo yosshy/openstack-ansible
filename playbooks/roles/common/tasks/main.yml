@@ -1,0 +1,10 @@
+---
+- name: copy /etc/hosts
+  copy: >
+        src=hosts
+        dest=/etc/hosts
+        owner=root
+        group=root
+        mode=0644
+
+- meta: flush_handlers

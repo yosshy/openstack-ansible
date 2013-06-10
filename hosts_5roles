@@ -1,0 +1,14 @@
+[controller]
+ansible3
+
+[frontend]
+ansible2
+
+[network_gateway]
+ansible4
+
+[volume_backend]
+ansible6
+
+[compute_backend]
+ansible5

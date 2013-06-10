@@ -1,0 +1,14 @@
+---
+system_user:
+  - { name: keystone, uid: 120 }
+  - { name: glance, uid: 121 }
+  - { name: quantum, uid: 122 }
+  - { name: cinder, uid: 123 }
+  - { name: nova, uid: 124 }
+
+system_group:
+  - { name: keystone, gid: 120 }
+  - { name: glance, gid: 121 }
+  - { name: quantum, gid: 122 }
+  - { name: cinder, gid: 123 }
+  - { name: nova, gid: 124 }

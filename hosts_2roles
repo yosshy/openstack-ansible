@@ -1,0 +1,19 @@
+[controller]
+ansible2
+
+[compute_backend]
+ansible3
+ansible4
+ansible5
+ansible6
+
+## Don't change the below:
+
+[frontend:children]
+controller
+
+[network_gateway:children]
+controller
+
+[volume_backend:children]
+controller

@@ -1,0 +1,9 @@
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse
+
+#deb http://ftp.riken.jp/Linux/ubuntu precise main restricted universe multiverse
+#deb http://ftp.riken.jp/Linux/ubuntu precise-updates main restricted universe multiverse
+#deb http://ftp.riken.jp/Linux/ubuntu precise-backports main restricted universe multiverse
+#deb http://ftp.riken.jp/Linux/ubuntu precise-security main restricted universe multiverse

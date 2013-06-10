@@ -1,0 +1,51 @@
+---
+- name: ensure cinder database user is present
+  mysql_user: >
+      name=cinder
+      host=$item
+      password=${cinder_db_password}
+      priv=cinder.*:ALL
+  with_items:
+    - $my_int_ip
+  delegate_to: ${first_host.controller}
+
+- name: ensure packages are installed
+  apt: pkg=$item
+  with_items:
+    - cinder-common
+    - cinder-volume
+    - python-cinderclient
+    - open-iscsi
+    - tgt
+    - python-mysqldb
+
+- name: ensure cinder.conf file is configured
+  template: >
+      src=cinder.conf
+      dest=/etc/cinder/cinder.conf
+      owner=cinder group=cinder mode=0644 backup=yes
+
+- name: ensure cinder.conf file is configured (update check)
+  template: >
+      src=cinder.conf
+      dest=/etc/cinder/.cinder.conf.backend
+      owner=cinder group=cinder mode=0644 backup=yes
+  notify:
+    - restart cinder services
+
+- name: ensure script to start loop dev for cinder-volumes in place
+  copy: >
+      src=cinder-start-loop
+      dest=/usr/local/bin/cinder-start-loop
+      owner=cinder group=cinder mode=0755
+ 
+- name: ensure upstart job to start loop device at boot is present
+  copy: >
+      src=cinder-start-loop.conf
+      dest=/etc/init/cinder-start-loop.conf
+      owner=root group=root mode=0644
+  notify:
+    - start loop device
+    - restart tgt
+
+- meta: flush_handlers

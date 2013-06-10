@@ -1,0 +1,8 @@
+my_int_if: eth0
+my_ext_if: eth1
+
+my_int_ip: ${ansible_eth0.ipv4.address}
+my_ext_ip: ${ansible_eth1.ipv4.address}
+
+my_int_obj: ${ansible_eth0}
+my_ext_obj: ${ansible_eth1}

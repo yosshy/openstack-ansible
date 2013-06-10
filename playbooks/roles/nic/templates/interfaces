@@ -1,0 +1,20 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto {{ my_int_if }}
+iface {{ my_int_if }} inet static
+    address {{ my_int_ip }}
+    netmask {{ my_int_obj["ipv4"]["netmask"] }}
+
+# The secondary network interface
+auto {{ my_ext_if }}
+iface {{ my_ext_if }} inet static
+    address {{ my_ext_ip }}
+    netmask {{ my_ext_obj["ipv4"]["netmask"] }}
+    gateway {{ network_gateway }}
+    dns-nameservers {{ network_dns }}

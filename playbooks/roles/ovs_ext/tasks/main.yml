@@ -1,0 +1,54 @@
+---
+- name: ensure openvswitch packages are installed
+  apt: pkg=$item
+  with_items:
+    - openvswitch-common
+    - openvswitch-datapath-dkms
+    - openvswitch-datapath-source
+    - openvswitch-switch
+    - kernel-package
+
+- name: ensure OVS kernel module is loaded
+  action: command /sbin/modprobe openvswitch
+  register: modprobe_result
+  ignore_errors: True
+
+- name: ensure openvswitch-datapath kernel module exists
+  action: command /usr/bin/module-assistant -i auto-install openvswitch-datapath
+  only_if: "'${modprobe_result.stderr}'.find('FATAL: Module openvswitch not found.') == 0"
+  notify: restart openvswitch services
+
+- name: ensure /etc/udev/rules.d/configure_br-ex.rules file is configured
+  copy: >
+        src=configure_br-ex.rules
+        dest=/etc/udev/rules.d/configure_br-ex.rules
+        owner=root group=root mode=0644
+
+- name: ensure /etc/udev/configure_br-ex file is configured
+  template: >
+        src=configure_br-ex
+        dest=/etc/udev/configure_br-ex
+        owner=root group=root mode=0755
+
+- name: ensure ovs bridge for gateway br-ex present
+  command: /usr/bin/ovs-vsctl -- --may-exist add-br br-ex
+  when: "'br-ex' not in ansible_interfaces"
+
+- name: gather the latest facts
+  action: setup
+
+- name: ensure br-ex has the external nic enslaved
+  command: /usr/bin/ovs-vsctl -- --may-exist add-port br-ex $my_ext_if
+  #when: "my_ext_if not in ansible_br_ex['interfaces']"
+
+- name: ensure ipv6 on physical interface for br-ex is disabled
+  sysctl: name=net.ipv6.conf.${my_ext_if}.disable_ipv6 value=1
+
+- name: ensure ipv6 on br-ex is disabled
+  sysctl: name=net.ipv6.conf.br-ex.disable_ipv6 value=1
+
+- name: ensure /etc/init/openvswitch-switch.conf file is configured
+  copy: >
+        src=openvswitch-switch.conf
+        dest=/etc/init/openvswitch-switch.conf
+        owner=root group=root mode=0644

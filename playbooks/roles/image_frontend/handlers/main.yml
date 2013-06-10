@@ -1,0 +1,3 @@
+---
+- name: restart glance-api
+  service: name=glance-api state=restarted
