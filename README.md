@@ -4,12 +4,14 @@ Ansible Playbooks for OpenStack Grizzly
 吉山 あきら <akirayoshiyama@gmail.com>
 
 本ツールは OSS のオーケストレーションツール「Ansible」
-（http://ansible.cc/）を使って OpenStack Grizzly 環境をインストールする
+（http://ansible.cc/ ）を使って OpenStack Grizzly 環境をインストールする
 ためのレシピ（Ansible のPlaybook）集です。
 
 本ツールは Darragh O'Reilly の quantum-ansible リポジトリ
-（https://github.com/djoreilly/quantum-ansible）をベースとし、主に以下
-の変更を加えています。
+（https://github.com/djoreilly/quantum-ansible ）と Lorin Hochstein の
+openstack-ansible-modules
+（https://github.com/lorin/openstack-ansible-modules ）をベースに、主に
+以下の変更を加えています。
 
  * Playbook 群のロール化
  * ネットワーク設定の完全自動化
@@ -43,6 +45,11 @@ Ansible Playbooks for OpenStack Grizzly
  * NIC#1 → 内部 LAN
  * NIC#2 → 外部 LAN
 
+なお、現在のレシピは Ansible 実行マシンとインストール先のマシン群が内部
+LAN で接続されている必要があります。外部 LAN で接続されている場合、ネッ
+トワークゲートウェイの NIC 設定で通信が切断されてしまい、レシピ実行が失
+敗します。
+
 インストール手順
 ----------------
 
@@ -51,6 +58,7 @@ Ansible Playbooks for OpenStack Grizzly
  1. x86-64 マシンに Ubuntu 12.04.2 をインストールします。  外部 LAN ・
     内部 LAN 共に DHCP でも構いませんが、DHCP を使用しない場合はOS イン
     ストール時に各ネットワークのパラメータを設定する必要があります。
+
  2. Python の開発環境をインストールします。
 
      ```
@@ -73,9 +81,12 @@ Ansible Playbooks for OpenStack Grizzly
      cd openstack-ansible
      ```
 
- 5. /etc/hosts に OpenStack インストール先サーバの設定を行います。
- 6. hosts_* を参考に ansible_hosts ファイルを作成します。
-    hosts_* はそれぞれ以下の構成例です。
+ 5. /etc/hosts に OpenStack インストール先サーバの設定を行います。この
+    際、各ホストに設定する IP アドレスは内部LAN用である必要があります。
+
+ 6. hosts_* を参考に ansible_hosts ファイルを作成します。hosts_* はそれ
+    ぞれ以下の構成例です。
+
     * hosts_allinone : １サーバ構成（オールインワン）
     * hosts_2roles : 制御ノード＋VMホスト構成
     * hosts_3roles : 制御ノード＋VMホスト＋ネットワークゲートウェイ構成
@@ -102,9 +113,9 @@ Ansible Playbooks for OpenStack Grizzly
      [volume_backend:children]
      controller
      ```
- 7. group_vars/all の設定項目を設定します。  
-    以下のパラメータは利用環境に合わせて修正して下さい。他のパラメータ
-    はデフォルト値で構いません。
+
+ 7. group_vars/all の設定項目を設定します。  以下のパラメータは利用環境
+    に合わせて修正して下さい。他のパラメータはデフォルト値で構いません。
 
      ```
      network_gateway: 192.168.0.254
@@ -113,11 +124,21 @@ Ansible Playbooks for OpenStack Grizzly
      ```
 
  8. Ansible を実行します。  
-    SSH パスワードを聞かれるので入力します。
-    sudo パスワードも聞かれますが、デフォルト値が SSH パスワードになっ
-    ているのでそのまま Enter で構いません。
 
      ```
-     ansible -k -K site.yml
+     ansible-playbook -k -K site.yml
      ```
 
+    SSH パスワードを聞かれるので入力します。sudo パスワードも聞かれます
+    が、デフォルト値が SSH パスワードになっているのでそのまま Enter で
+    構いません。
+
+謝辞
+----
+
+本ツールの作成にありお世話になった以下の方々に御礼申し上げます。
+
+ * quantum-ansible リポジトリのメンテナ Darragh O'Reilly
+ * openstack-ansible-modules リポジトリのメンテナ Lorin Hochstein
+ * Ansible 開発元の AnsibleWorks
+ * OpenStack コミュニティ
