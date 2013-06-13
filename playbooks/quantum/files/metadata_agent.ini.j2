@@ -4,7 +4,7 @@
 
 # The Quantum user information for accessing the Quantum API.
 auth_url = http://{{ frontend_int_ip }}:35357/v2.0
-auth_region = RegionOne
+auth_region = {{ region }}
 admin_tenant_name = service
 admin_user = quantum
 admin_password = {{ quantum_db_password }}

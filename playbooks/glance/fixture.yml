@@ -29,7 +29,7 @@
           user=admin
           tenant=demo
           password=secrete
-          region=RegionOne
+          region={{ region }}
           auth_url=http://${frontend_ext_ip}:5000/v2.0
       with_items: $glance_images
       delegate_to: ${first_host.frontend}
