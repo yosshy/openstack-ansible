@@ -1,3 +1,22 @@
+tenants:
+  - name: service
+    description: Service Tenant
+  - name: demo
+    description: Default Tenant
+
+users:
+  - name: ${admin_user}
+    password: ${admin_password}
+    tenant: ${admin_tenant}
+  - name: demo
+    password: demo
+    tenant: demo
+
+user_roles:
+  - user: ${admin_user}
+    tenant: ${admin_tenant}
+    role: admin
+
 service_users:
   - name: glance
     password: $glance_identity_password

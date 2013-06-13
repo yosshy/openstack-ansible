@@ -6,27 +6,30 @@
     - vars/main.yml
 
   tasks:
-    - name: ensure default tenant exists
+    - name: ensure tenants exist
       keystone_user: >
             token=$admin_token
-            tenant=demo
-            tenant_description="Default Tenant"
+            tenant=${item.name}
+            tenant_description="${item.description}"
+      with_items: $tenants
       delegate_to: ${first_host.frontend}
     
-    - name: ensure admin user exists
+    - name: ensure users exist
       keystone_user: >
             token=$admin_token
-            user=admin
-            tenant=demo
-            password=secrete
+            user=${item.name}
+            tenant=${item.tenant}
+            password=${item.password}
+      with_items: $users
       delegate_to: ${first_host.frontend}
     
-    - name: ensure admin role is associate with admin user
+    - name: ensure role is associate with users
       keystone_user: >
             token=$admin_token
-            role=admin
-            user=admin
-            tenant=demo
+            role=${item.role}
+            user=${item.user}
+            tenant=${item.tenant}
+      with_items: $user_roles
       delegate_to: ${first_host.frontend}
     
     - name: ensure service tenant exists

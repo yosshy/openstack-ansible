@@ -5,9 +5,9 @@
 - include: ovs_ext/main.yml
 - include: nic/main.yml
 - include: nic_ext/main.yml
+- include: set_vars/main.yml
 - include: ntp/main.yml
 - include: ntpdate/main.yml
-- include: set_vars/main.yml
 - include: mysql/main.yml
 - include: rabbitmq/main.yml
 - include: memcached/main.yml

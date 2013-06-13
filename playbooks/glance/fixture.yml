@@ -26,9 +26,9 @@
           file=/tmp/images/${item.name}
           disk_format=${item.disk_format}
           is_public=true
-          user=admin
-          tenant=demo
-          password=secrete
+          user={{ admin_user }}
+          tenant={{ admin_tenant }}
+          password={{ admin_password }}
           region={{ region }}
           auth_url=http://${frontend_ext_ip}:5000/v2.0
       with_items: $glance_images
