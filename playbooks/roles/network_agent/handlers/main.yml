@@ -1,3 +1,0 @@
----
-- name: restart ovs-agent
-  service: name=quantum-plugin-openvswitch-agent state=restarted

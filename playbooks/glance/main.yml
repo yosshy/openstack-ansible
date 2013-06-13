@@ -1,0 +1,4 @@
+---
+- include: controller.yml
+- include: frontend.yml
+- include: fixture.yml

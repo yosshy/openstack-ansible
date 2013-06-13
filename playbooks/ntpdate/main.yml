@@ -1,0 +1,20 @@
+---
+- name: NTP Client
+  hosts: all
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure ntp package is not installed
+      apt: pkg=ntp state=absent
+      when: "ntp_server not in ansible_all_ipv4_addresses"
+  
+    - name: ensure ntpdate package is installed
+      apt: pkg=ntpdate
+      when: "ntp_server not in ansible_all_ipv4_addresses"
+  
+    - name: ensure /etc/cron.daily/ntpdate file is configured
+      template: >
+            src=files/ntpdate 
+            dest=/etc/cron.daily/ntpdate 
+            owner=root group=root mode=0755

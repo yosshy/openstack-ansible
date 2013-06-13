@@ -1,0 +1,24 @@
+---
+- name: NTP Server
+  hosts: all
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure ntp package is installed
+      apt: pkg=ntp
+      when: "ntp_server in ansible_all_ipv4_addresses"
+  
+    - name: ensure ntp.conf file is configured
+      copy: >
+             src=files/ntp.conf
+             dest=/etc/ntp.conf
+             owner=root
+             group=root
+             mode=0644
+      notify: restart ntp
+      when: "ntp_server in ansible_all_ipv4_addresses"
+  
+  handlers:
+    - name: restart ntp
+      service: name=ntp state=restarted

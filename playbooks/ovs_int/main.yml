@@ -1,0 +1,36 @@
+---
+- name: Open vSwitch
+  hosts: network_gateway:compute_backend
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure openvswitch-related packages are installed
+      apt: pkg=$item
+      with_items:
+        - openvswitch-common
+        - openvswitch-datapath-dkms
+        - openvswitch-datapath-source
+        - openvswitch-switch
+        - kernel-package
+  
+    - name: ensure OVS kernel module is loaded
+      action: command /sbin/modprobe openvswitch
+      register: modprobe_result
+      ignore_errors: True
+  
+    - name: ensure openvswitch-datapath kernel module exists
+      action: command /usr/bin/module-assistant -i auto-install openvswitch-datapath
+      only_if: "'${modprobe_result.stderr}'.find('FATAL: Module openvswitch not found.') == 0"
+      notify: restart openvswitch services
+  
+    - name: ensure default ovs bridge br-int exists
+      action: command /usr/bin/ovs-vsctl -- --may-exist add-br br-int
+      when: "'br-int' not in ansible_interfaces"
+
+  handlers:
+    - name: restart openvswitch services
+      action: service name=openvswitch-switch state=restarted
+
+    - name: restart ovs-agent
+      service: name=quantum-plugin-openvswitch-agent state=restarted

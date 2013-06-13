@@ -1,8 +1,0 @@
----
-- name: set up network gateway node(s)
-  hosts: network_gateway
-  gather_facts: yes
-  sudo: yes
-  roles:
-    - network_agent
-    - network_gateway

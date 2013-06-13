@@ -1,3 +1,0 @@
----
-- name: restart cinder services
-  service: name=cinder-api state=restarted

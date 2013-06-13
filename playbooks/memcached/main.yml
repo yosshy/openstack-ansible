@@ -1,0 +1,9 @@
+---
+- name: Memcached
+  hosts: controller
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure memcached package is installed
+      apt: pkg=memcached

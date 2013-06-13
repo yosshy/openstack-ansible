@@ -1,7 +1,0 @@
-- name: ensure services are restarted
-  service: name=$item state=restarted
-  with_items:
-    - nova-cert
-    - nova-consoleauth
-    - nova-conductor
-    - nova-scheduler

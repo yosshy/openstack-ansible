@@ -1,9 +1,0 @@
----
-- name: restart cinder services
-  service: name=cinder-volume state=restarted
-
-- name: start loop device
-  service: name=cinder-start-loop state=started
-
-- name: restart tgt
-  service: name=tgt state=restarted

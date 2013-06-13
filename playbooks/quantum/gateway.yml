@@ -1,0 +1,68 @@
+---
+- name: OpenStack Networking (Network Gateway)
+  hosts: network_gateway
+  sudo: yes
+
+  tasks:
+    - name: ensure quantum database user is present
+      mysql_user: >
+          name=quantum
+          host=$item
+          password=${quantum_db_password}
+          priv=quantum.*:ALL
+      with_items:
+        - $my_int_ip
+      delegate_to: ${first_host.controller}
+    
+    - name: ensure each quantum agents are installed
+      apt: name=$item
+      with_items:
+        - quantum-l3-agent
+        - quantum-dhcp-agent
+        - quantum-lbaas-agent
+        - quantum-metadata-agent
+        - python-mysqldb
+    
+    - name: ensure quantum.conf file is configured
+      template: >
+            src=files/quantum.conf
+            dest=/etc/quantum/quantum.conf
+            owner=quantum group=quantum mode=0660 backup=yes
+    
+    - name: ensure quantum.conf file is configured (update check)
+      template: >
+            src=files/quantum.conf
+            dest=/etc/quantum/.quantum.conf.agent
+            owner=quantum group=quantum mode=0660 backup=yes
+      notify:
+        - restart l3 agent
+        - restart dhcp agent
+        - restart lbaas agent
+        - restart metadata agent
+    
+    - name: ensure l3_agent.ini file is configured
+      template: >
+            src=files/l3_agent.ini
+            dest=/etc/quantum/l3_agent.ini
+            owner=quantum group=quantum mode=0660 backup=yes
+      notify: restart l3 agent
+    
+    - name: ensure metadata_agent.ini file is configured
+      template: >
+            src=files/metadata_agent.ini.j2
+            dest=/etc/quantum/metadata_agent.ini
+            owner=quantum group=quantum mode=0660 backup=yes
+      notify: restart metadata agent
+    
+  handlers:
+    - name: restart l3 agent
+      action: service name=quantum-l3-agent state=restarted
+    
+    - name: restart dhcp agent
+      action: service name=quantum-dhcp-agent state=restarted
+    
+    - name: restart lbaas agent
+      action: service name=quantum-lbaas-agent state=restarted
+    
+    - name: restart metadata agent
+      action: service name=quantum-metadata-agent state=restarted

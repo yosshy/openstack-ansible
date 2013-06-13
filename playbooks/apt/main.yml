@@ -1,0 +1,37 @@
+---
+- name: Apt Repositories
+  hosts: all
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure sources.list is configured
+      copy: >
+            src=files/sources.list
+            dest=/etc/apt/sources.list
+            owner=root
+            group=root
+            mode=0644
+  
+    - name: ensure apt.conf is configured
+      template: >
+            src=files/apt.conf
+            dest=/etc/apt/apt.conf
+            owner=root
+            group=root
+            mode=0644
+      when: "http_proxy is defined"
+  
+    - name: ensure ubuntu-cloud-keyring package is installed
+      apt: pkg=ubuntu-cloud-keyring update_cache=yes
+  
+    - name: ensure ubuntu-cloud-archive is configured
+      copy: >
+            src=files/ubuntu-cloud-archive.list
+            dest=/etc/apt/sources.list.d/ubuntu-cloud-archive.list
+            owner=root
+            group=root
+            mode=0644
+  
+    - name: ensure apt cache is updated
+      apt: update_cache=yes

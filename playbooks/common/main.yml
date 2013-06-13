@@ -1,0 +1,14 @@
+---
+- name: Common Setting(s)
+  hosts: all
+  sudo: yes
+
+  tasks:
+    - name: copy /etc/hosts
+      copy: >
+            src=files/hosts
+            dest=/etc/hosts
+            owner=root
+            group=root
+            mode=0644
+

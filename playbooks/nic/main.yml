@@ -1,0 +1,33 @@
+---
+- name: Network Interfaces
+  hosts: all:!network_gateway
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: gather the latest facts
+      action: setup
+  
+    - name: ensure the internal network interface is up.
+      command: dhclient -1 {{ my_int_if }}
+      when: "'ipv4' not in my_int_obj"
+  
+    - name: ensure the external network interface is up.
+      command: dhclient -1 {{ my_ext_if }}
+      when: "'ipv4' not in my_ext_obj"
+  
+    - name: gather the latest facts
+      action: setup
+  
+    - name: ensure /etc/network/interfaces file is configured
+      action: template
+              src=files/interfaces
+              dest=/etc/network/interfaces
+              owner=root
+              group=root
+              mode=0644
+      notify: restart network
+  
+  handlers:
+    - name: restart network
+      service: name=networking state=restarted

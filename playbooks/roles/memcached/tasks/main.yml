@@ -1,5 +1,0 @@
----
-- name: ensure memcached package is installed
-  apt: pkg=memcached
-
-- meta: flush_handlers

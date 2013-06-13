@@ -1,0 +1,49 @@
+---
+- name: OpenStack Block Storage (Frontend)
+  hosts: frontend
+  sudo: yes
+
+  tasks:
+    - name: ensure cinder database user is present
+      mysql_user: >
+          name=cinder
+          host=$item
+          password=${cinder_db_password}
+          priv=cinder.*:ALL
+      with_items:
+        - $my_int_ip
+      delegate_to: ${first_host.controller}
+  
+    - name: ensure packages are installed
+      apt: pkg=$item
+      with_items:
+        - cinder-common
+        - cinder-api
+        - python-cinderclient
+        - python-mysqldb
+    
+    - name: ensure api-paste.ini file is configured
+      template: >
+          src=files/api-paste.ini
+          dest=/etc/cinder/api-paste.ini
+          owner=cinder group=cinder mode=0644 backup=yes
+      notify:
+        - restart cinder services
+    
+    - name: ensure cinder.conf file is configured
+      template: >
+          src=files/cinder.conf
+          dest=/etc/cinder/cinder.conf
+          owner=cinder group=cinder mode=0644 backup=yes
+    
+    - name: ensure cinder.conf file is configured (update check)
+      template: >
+          src=files/cinder.conf
+          dest=/etc/cinder/.cinder.conf.frontend
+          owner=cinder group=cinder mode=0644 backup=yes
+      notify:
+        - restart cinder services
+  
+  handlers:
+    - name: restart cinder services
+      service: name=cinder-api state=restarted

@@ -1,0 +1,9 @@
+---
+- name: RabbitMQ Server
+  hosts: controller
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure rabbitmq-server packages are installed
+      apt: pkg=rabbitmq-server

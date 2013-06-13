@@ -1,3 +1,0 @@
----
-- name: restart quantum-server
-  service: name=quantum-server state=restarted

@@ -1,0 +1,4 @@
+---
+- include: server.yml
+- include: gateway.yml
+- include: agent.yml

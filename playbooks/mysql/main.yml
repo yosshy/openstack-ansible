@@ -1,0 +1,55 @@
+---
+- name: MySQL Server
+  hosts: controller
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure mysql and mysql python client installed
+      apt: pkg=$item
+      with_items:
+        - python-mysqldb
+        - mysql-server
+  
+    - name: ensure my.cnf file is configured
+      copy: >
+            src=files/my.cnf
+            dest=/etc/mysql/my.cnf
+            owner=root
+            group=root
+            mode=0664
+      notify: restart mysql
+  
+    - name: ensure mysql root password for all root accounts are altered
+      mysql_user: >
+            name=root
+            host=$item
+            password=$root_db_password
+      with_items:
+        - $my_int_ip
+        - 127.0.0.1
+        - localhost
+      delegate_to: ${first_host.controller}
+  
+    - name: ensure .my.cnf file is configured
+      template: >
+            src=files/.my.cnf
+            dest=/root/.my.cnf
+            owner=root
+            mode=0600
+  
+    - name: ensure anonymous users are not in the database
+      mysql_user: >
+            name=''
+            host=$item
+            state=absent
+      with_items:
+       - $my_int_ip
+       - $inventory_hostname_short
+       - 127.0.0.1
+       - ::1
+      delegate_to: ${first_host.controller}
+  
+  handlers:
+    - name: restart mysql
+      service: name=mysql state=restarted

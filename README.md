@@ -13,7 +13,7 @@ openstack-ansible-modules
 （https://github.com/lorin/openstack-ansible-modules ）をベースに、主に
 以下の変更を加えています。
 
- * Playbook 群のロール化
+ * Playbook 群のロール的な整理（非ロール）
  * ネットワーク設定の完全自動化
  * サーバタイプの見直し（frontend, controller, network_gateway,
    compute_backend, volume_backend）
