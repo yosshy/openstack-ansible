@@ -8,8 +8,8 @@ Ansible Playbooks for OpenStack Grizzly
 ためのレシピ（Ansible のPlaybook）集です。
 
 本ツールは Darragh O'Reilly の quantum-ansible リポジトリ
-（https://github.com/djoreilly/quantum-ansible ）と Lorin Hochstein の
-openstack-ansible-modules
+（https://github.com/djoreilly/quantum-ansible ）と
+Lorin Hochstein の openstack-ansible-modules
 （https://github.com/lorin/openstack-ansible-modules ）をベースに、主に
 以下の変更を加えています。
 
@@ -104,13 +104,13 @@ LAN で接続されている必要があります。外部 LAN で接続され�
      ansible6        ←インストール先ホスト名
 
      [frontend:children]
-     controller
+     controller      ←controller を継承（ansible2）
 
      [network_gateway:children]
-     controller
+     controller      ←controller を継承（ansible2）
 
      [volume_backend:children]
-     controller
+     controller      ←controller を継承（ansible2）
      ```
 
  7. group_vars/all の設定項目を設定します。  以下のパラメータは利用環境
@@ -135,9 +135,13 @@ LAN で接続されている必要があります。外部 LAN で接続され�
 謝辞
 ----
 
-本ツールの作成にありお世話になった以下の方々に御礼申し上げます。
+本ツールの作成にあたりお世話になった以下の方々に御礼申し上げます。
 
- * quantum-ansible リポジトリのメンテナ Darragh O'Reilly
- * openstack-ansible-modules リポジトリのメンテナ Lorin Hochstein
- * Ansible 開発元の AnsibleWorks
- * OpenStack コミュニティ
+ * quantum-ansible リポジトリのメンテナ Darragh O'Reilly。
+   Darragh の作品無しでは本ツールは有り得なかったでしょう。
+ * openstack-ansible-modules リポジトリのメンテナ Lorin Hochstein。
+   Glance/Keystone 用 Ansible モジュールを使わせて頂きました。
+ * Ansible 開発元の AnsibleWorks。
+   Ansible は使いやすく、希少な OSS オーケストレーションツールです。
+ * OpenStack コミュニティ。
+   素晴らしい OSS クラウド基盤をありがとう。
