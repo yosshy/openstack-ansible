@@ -4,6 +4,21 @@
   sudo: yes
 
   tasks:
+    - name: ensure keystone database is present
+      mysql_db: name=keystone
+      delegate_to: ${first_host.controller}
+      when: "ansible_hostname == first_host['frontend']"
+    
+    - name: ensure keystone database user is present
+      mysql_user: >
+          name=keystone
+          host=$item
+          password=${keystone_db_password}
+          priv=keystone.*:ALL
+      with_items:
+        - $my_int_ip
+      delegate_to: ${first_host.controller}
+    
     - name: ensure keystone package is installed
       apt: pkg=$item
       with_items:
@@ -18,20 +33,6 @@
           dest=/var/lib/keystone/keystone.db
           state=absent
     
-    - name: ensure keystone database is present
-      mysql_db: name=keystone
-      delegate_to: ${first_host.controller}
-    
-    - name: ensure keystone database user is present
-      mysql_user: >
-          name=keystone
-          host=$item
-          password=${keystone_db_password}
-          priv=keystone.*:ALL
-      with_items:
-        - $my_int_ip
-      delegate_to: ${first_host.controller}
-    
     - name: ensure keystone.conf file is configured
       template: >
           src=files/keystone.conf
@@ -43,7 +44,7 @@
     
     - name: ensure keystone database is initialized
       keystone_manage: action=db_sync
-      delegate_to: ${first_host.frontend}
+      when: "ansible_hostname == first_host['frontend']"
       notify: restart keystone
     
   handlers:

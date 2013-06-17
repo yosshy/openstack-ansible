@@ -6,7 +6,7 @@
   tasks:
     - name: ensure cinder database is present
       mysql_db: name=cinder
-      delegate_to: ${first_host.controller}
+      when: "ansible_hostname == first_host['controller']"
       notify:
         - restart cinder services
       
@@ -44,6 +44,7 @@
     
     - name: sync cinder db
       command: cinder-manage db sync
+      when: "ansible_hostname == first_host['controller']"
     
   handlers:
     - name: restart cinder services

@@ -1,6 +1,6 @@
 ---
 - name: OpenStack Identity (Fixture(s))
-  hosts: frontend
+  hosts: frontend[:1]
   sudo: yes
   vars_files:
     - vars/main.yml

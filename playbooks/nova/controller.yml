@@ -6,7 +6,7 @@
   tasks:
     - name: ensure nova database is present
       mysql_db: name=nova
-      delegate_to: ${first_host.controller}
+      when: "ansible_hostname == first_host['controller']"
     
     - name: ensure nova database user is present
       mysql_user: >
@@ -54,6 +54,7 @@
     
     - name: ensure database is synced
       command: /usr/bin/nova-manage db sync
+      when: "ansible_hostname == first_host['controller']"
     
   handlers:
     - name: ensure services are restarted

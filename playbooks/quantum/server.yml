@@ -8,6 +8,7 @@
     - name: ensure quantum database is present
       mysql_db: name=quantum
       delegate_to: ${first_host.controller}
+      when: "ansible_hostname == first_host['frontend']"
     
     - name: ensure quantum database user is present
       mysql_user: >
