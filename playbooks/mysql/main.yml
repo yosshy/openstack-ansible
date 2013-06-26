@@ -1,7 +1,6 @@
 ---
 - name: MySQL Server
   hosts: controller
-  gather_facts: yes
   sudo: yes
 
   tasks:

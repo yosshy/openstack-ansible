@@ -1,7 +1,6 @@
 ---
 - name: Memcached
   hosts: controller
-  gather_facts: yes
   sudo: yes
 
   tasks:

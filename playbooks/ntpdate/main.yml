@@ -1,7 +1,6 @@
 ---
 - name: NTP Client
   hosts: all
-  gather_facts: yes
   sudo: yes
 
   tasks:

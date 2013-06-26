@@ -1,6 +1,7 @@
 ---
 - name: OpenStack Identity
   hosts: frontend
+  gather_facts: yes
   sudo: yes
 
   tasks:

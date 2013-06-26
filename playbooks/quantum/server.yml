@@ -1,7 +1,6 @@
 ---
 - name: OpenStack Networking (Frontend)
   hosts: frontend
-  gather_facts: yes
   sudo: yes
 
   tasks:

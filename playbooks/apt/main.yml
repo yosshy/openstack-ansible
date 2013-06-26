@@ -1,7 +1,6 @@
 ---
 - name: Apt Repositories
   hosts: all
-  gather_facts: yes
   sudo: yes
 
   tasks:
