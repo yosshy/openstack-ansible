@@ -17,7 +17,9 @@
             owner=root
             group=root
             mode=0664
-      notify: restart mysql
+      notify:
+        - stop mysql
+        - restart mysql
   
     - name: ensure mysql root password for all root accounts are altered
       mysql_user: >
@@ -50,5 +52,10 @@
       delegate_to: ${first_host.controller}
   
   handlers:
+    - name: stop mysql
+      service: name=mysql state=restarted
+      when: "ansible_hostname != first_host['controller']"
+
     - name: restart mysql
       service: name=mysql state=restarted
+      when: "ansible_hostname == first_host['controller']"
