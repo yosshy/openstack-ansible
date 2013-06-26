@@ -1,11 +1,12 @@
 - include: common/main.yml
+- include: set_vars/main.yml
 - include: apt/main.yml
 - include: os_account/main.yml
 - include: ovs_int/main.yml
 - include: ovs_ext/main.yml
 - include: nic/main.yml
 - include: nic_ext/main.yml
-- include: set_vars/main.yml
+- include: set_ips/main.yml
 - include: ntp/main.yml
 - include: ntpdate/main.yml
 - include: mysql/main.yml
