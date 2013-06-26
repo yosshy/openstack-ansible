@@ -1,6 +1,7 @@
 ---
 - name: MySQL Server
   hosts: controller
+  gather_facts: yes
   sudo: yes
 
   tasks:
@@ -30,7 +31,7 @@
         - $my_int_ip
         - 127.0.0.1
         - localhost
-      delegate_to: ${first_host.controller}
+      when: "controller_ip in ansible_all_ipv4_addresses"
   
     - name: ensure .my.cnf file is configured
       template: >
@@ -49,13 +50,13 @@
        - $inventory_hostname_short
        - 127.0.0.1
        - ::1
-      delegate_to: ${first_host.controller}
+      when: "controller_ip in ansible_all_ipv4_addresses"
   
   handlers:
     - name: stop mysql
       service: name=mysql state=restarted
-      when: "ansible_hostname != first_host['controller']"
+      when: "controller_ip not in ansible_all_ipv4_addresses"
 
     - name: restart mysql
       service: name=mysql state=restarted
-      when: "ansible_hostname == first_host['controller']"
+      when: "controller_ip in ansible_all_ipv4_addresses"
