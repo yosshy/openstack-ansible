@@ -5,9 +5,6 @@
   sudo: yes
 
   tasks:
-    - name: gather the last facts
-      action: setup
-  
     - name: ensure my_int_ip is a fact variable
       action: set_fact
       args:
@@ -24,20 +21,32 @@
         my_ext_ip: "{{ ansible_br_ex['ipv4']['address'] }}"
       when: "ansible_br_ex is defined"
   
-    - name: ensure frontend_ext_ip is set
-      action: set_fact
-      args:
-        frontend_ext_ip: "{{ hostvars[first_host['frontend']]['my_ext_ip'] }}"
-      when: "frontend_ext_ip is not defined"
-  
-    - name: ensure frontend_int_ip is set
-      action: set_fact
-      args:
-        frontend_int_ip: "{{ hostvars[first_host['frontend']]['my_int_ip'] }}"
-      when: "frontend_int_ip is not defined"
-  
-    - name: ensure controller_ip is set
-      action: set_fact
-      args:
-        controller_ip: "{{ hostvars[first_host['controller']]['my_int_ip'] }}"
+    - name: Ensure controller_ip is set.
+      local_action: >
+          lineinfile
+          dest=../../group_vars/all
+          regexp="^controller_ip:"
+          line="controller_ip: {{ hostvars[first_host['controller']]['my_int_ip'] }}"
       when: "controller_ip is not defined"
+
+    - name: Ensure frontend_int_ip is set.
+      local_action: >
+          lineinfile
+          dest=../../group_vars/all
+          regexp="^frontend_int_ip:"
+          line="frontend_int_ip: {{ hostvars[first_host['frontend']]['my_int_ip'] }}"
+      when: "frontend_int_ip is not defined"
+
+    - name: Ensure frontend_ext_ip is set.
+      local_action: >
+          lineinfile
+          dest=../../group_vars/all
+          regexp="^frontend_ext_ip:"
+          line="frontend_ext_ip: {{ hostvars[first_host['frontend']]['my_ext_ip'] }}"
+      when: "frontend_ext_ip is not defined"
+
+    - name: gather the last facts
+      action: setup
+
+    - name: display frontend_ext_ip, frontend_int_ip and controller_ip.
+      command: echo ${frontend_ext_ip} ${frontend_int_ip} ${controller_ip}
