@@ -6,7 +6,7 @@
   tasks:
     - name: ensure cinder database is present
       mysql_db: name=cinder
-      when: "ansible_hostname == first_host['controller']"
+      when: "ansible_hostname == primary_controller_host"
       notify:
         - restart cinder services
       
@@ -18,7 +18,7 @@
           priv=cinder.*:ALL
       with_items:
         - $my_int_ip
-      delegate_to: ${first_host.controller}
+      delegate_to: ${primary_controller_host}
     
     - name: ensure cinder-related packages are installed
       apt: pkg=$item
@@ -44,7 +44,7 @@
     
     - name: sync cinder db
       command: cinder-manage db sync
-      when: "ansible_hostname == first_host['controller']"
+      when: "ansible_hostname == primary_controller_host"
     
   handlers:
     - name: restart cinder services

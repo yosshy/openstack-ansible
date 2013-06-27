@@ -10,7 +10,7 @@
           host=$item
           password=$nova_db_password
           priv=nova.*:ALL
-      delegate_to: ${first_host.controller}
+      delegate_to: ${primary_controller_host}
       with_items:
         - $my_int_ip
     

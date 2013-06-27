@@ -6,7 +6,7 @@
   tasks:
     - name: ensure glance database is present
       mysql_db: name=glance
-      when: "ansible_hostname == first_host['controller']"
+      when: "ansible_hostname == primary_controller_host"
       notify:
         - initialize the database
         - restart glance-registry
@@ -19,7 +19,7 @@
           priv=glance.*:ALL
       with_items:
         - $my_int_ip
-      delegate_to: ${first_host.controller}
+      delegate_to: ${primary_controller_host}
       notify:
         - initialize the database
         - restart glance-registry
@@ -54,5 +54,5 @@
     
     - name: initialize the database
       glance_manage: action=dbsync
-      when: "ansible_hostname == first_host['controller']"
+      when: "ansible_hostname == primary_controller_host"
     

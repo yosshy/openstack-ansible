@@ -7,8 +7,8 @@
   tasks:
     - name: ensure keystone database is present
       mysql_db: name=keystone
-      delegate_to: ${first_host.controller}
-      when: "ansible_hostname == first_host['frontend']"
+      delegate_to: ${primary_controller_host}
+      when: "ansible_hostname == primary_frontend_host"
     
     - name: ensure keystone database user is present
       mysql_user: >
@@ -18,7 +18,7 @@
           priv=keystone.*:ALL
       with_items:
         - $my_int_ip
-      delegate_to: ${first_host.controller}
+      delegate_to: ${primary_controller_host}
     
     - name: ensure keystone package is installed
       apt: pkg=$item
@@ -45,7 +45,7 @@
     
     - name: ensure keystone database is initialized
       keystone_manage: action=db_sync
-      when: "ansible_hostname == first_host['frontend']"
+      when: "ansible_hostname == primary_frontend_host"
       notify: restart keystone
     
   handlers:

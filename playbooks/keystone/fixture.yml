@@ -1,6 +1,7 @@
 ---
 - name: OpenStack Identity (Fixture(s))
   hosts: frontend[:1]
+  gather_facts: yes
   sudo: yes
   vars_files:
     - vars/main.yml
@@ -12,7 +13,7 @@
             tenant=${item.name}
             tenant_description="${item.description}"
       with_items: $tenants
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure users exist
       keystone_user: >
@@ -21,7 +22,7 @@
             tenant=${item.tenant}
             password=${item.password}
       with_items: $users
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure role is associate with users
       keystone_user: >
@@ -30,14 +31,14 @@
             user=${item.user}
             tenant=${item.tenant}
       with_items: $user_roles
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure service tenant exists
       keystone_user: >
             token=$admin_token
             tenant=service
             tenant_description="Service Tenant"
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure users for each of the services exist
       keystone_user: >
@@ -46,7 +47,7 @@
             tenant=service
             password=${item.password}
       with_items: $service_users
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure each of the service users is associated with service tenant
       keystone_user: >
@@ -55,7 +56,7 @@
             user=${item.name}
             tenant=service
       with_items: $service_users
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure each service exists
       keystone_service: >
@@ -68,4 +69,4 @@
             admin_url=${item.admin_url}
             region=$region
       with_items: $services
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}

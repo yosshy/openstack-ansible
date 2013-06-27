@@ -3,17 +3,10 @@
 log_debug: True
 log_verbose: False
 
-# first_host
-
-first_host: 
-  controller: ${groups.controller[0]}
-  frontend: ${groups.frontend[0]}
-  network_gateway: ${groups.network_gateway[0]}
-  volume_backend: ${groups.volume_backend[0]}
-  compute_backend: ${groups.compute_backend[0]}
-
 # network parameters
 
+#primary_controller_host: ansible5
+#primary_frontend_host: ansible3
 network_gateway: 192.168.0.254
 network_dns: 192.168.0.254
 
@@ -30,18 +23,18 @@ ntp_server: $controller_ip
 
 # passwords
 
-#root_db_password: jab4id9nud3yoyft2i
-#keystone_db_password: feld8eib6hu5twiev5
-#glance_db_password: rig3ak2yu2heb5hed6
-#nova_db_password: cre7eth6ta8grum5ce
-#quantum_db_password: quantum
-#cinder_db_password: cinder
-#glance_identity_password: glance
-#nova_identity_password: nova
-#ec2_identity_password: ec2
-#swift_identity_password: swiftpass
-#quantum_identity_password: quantum
-#cinder_identity_password: cinder
+#root_db_password: kaaSh9oaqu8jooch
+#keystone_db_password: gee9cehee5DooBei
+#glance_db_password: bieFoh4theib5RiF
+#nova_db_password: eReith1eid1ep3ER
+#quantum_db_password: Gomai8Iex6tae8ji
+#cinder_db_password: pheem6Ieyuubeibu
+#glance_identity_password: Ahzeemoo3aukeiZe
+#nova_identity_password: Ieta9eTathee6Eiy
+#ec2_identity_password: Weedehee7sah0eix
+#swift_identity_password: eeGoiyoozohB8viM
+#quantum_identity_password: Ah4ohtheMo5deefe
+#cinder_identity_password: quoovahkae1eeDei
 
 # keystone
 

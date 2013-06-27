@@ -12,7 +12,7 @@
           priv=quantum.*:ALL
       with_items:
         - $my_int_ip
-      delegate_to: ${first_host.controller}
+      delegate_to: ${primary_controller_host}
     
     - name: ensure each quantum agents are installed
       apt: name=$item

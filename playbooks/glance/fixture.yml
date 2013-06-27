@@ -10,7 +10,7 @@
       file: >
           dest=/tmp/images
           state=directory
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure test image has been obtained
       get_url: >
@@ -18,7 +18,7 @@
           dest=/tmp/images/${item.name}
       with_items: $glance_images
       environment: "{{ proxy_env }}"
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
     
     - name: ensure cirros image is registered
       glance: >
@@ -32,4 +32,4 @@
           region={{ region }}
           auth_url=http://${frontend_ext_ip}:5000/v2.0
       with_items: $glance_images
-      delegate_to: ${first_host.frontend}
+      delegate_to: ${primary_frontend_host}
