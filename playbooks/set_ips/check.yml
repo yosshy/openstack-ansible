@@ -1,0 +1,16 @@
+---
+- name: Checking Variables
+  hosts: all[:1]
+  gather_facts: yes
+
+  tasks:
+    - action: setup
+
+    - fail: msg="controller_ip is not configured"
+      when: "controller_ip is not defined or not controller_ip"
+
+    - fail: msg="frontend_int_ip is not configured"
+      when: "frontend_int_ip is not defined or not frontend_int_ip"
+
+    - fail: msg="frontend_ext_ip is not configured"
+      when: "frontend_ext_ip is not defined or not frontend_ext_ip"

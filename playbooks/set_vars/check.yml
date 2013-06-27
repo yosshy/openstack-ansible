@@ -1,0 +1,64 @@
+---
+- name: Checking Variables
+  hosts: all[:1]
+  gather_facts: yes
+
+  tasks:
+    - action: setup
+
+    - fail: msg="root_db_password is not configured"
+      when: "root_db_password is not defined or not root_db_password"
+
+    - fail: msg="keystone_db_password is not configured"
+      when: "keystone_db_password is not defined or not keystone_db_password"
+
+    - fail: msg="glance_db_password is not configured"
+      when: "glance_db_password is not defined or not glance_db_password"
+
+    - fail: msg="nova_db_password is not configured"
+      when: "nova_db_password is not defined or not nova_db_password"
+
+    - fail: msg="quantum_db_password is not configured"
+      when: "quantum_db_password is not defined or not quantum_db_password"
+
+    - fail: msg="cinder_db_password is not configured"
+      when: "cinder_db_password is not defined or not cinder_db_password"
+
+    - fail: msg="glance_identity_password is not configured"
+      when: "glance_identity_password is not defined or not glance_identity_password"
+
+    - fail: msg="nova_identity_password is not configured"
+      when: "nova_identity_password is not defined or not nova_identity_password"
+
+    - fail: msg="ec2_identity_password is not configured"
+      when: "ec2_identity_password is not defined or not ec2_identity_password"
+
+    - fail: msg="swift_identity_password is not configured"
+      when: "swift_identity_password is not defined or not swift_identity_password"
+
+    - fail: msg="quantum_identity_password is not configured"
+      when: "quantum_identity_password is not defined or not quantum_identity_password"
+
+    - fail: msg="cinder_identity_password is not configured"
+      when: "cinder_identity_password is not defined or not cinder_identity_password"
+
+    - fail: msg="admin_token is not configured"
+      when: "admin_token is not defined or not admin_token"
+
+    - fail: msg="admin_password is not configured"
+      when: "admin_password is not defined or not admin_password"
+
+    - fail: msg="primary_controller_host is not configured"
+      when: "primary_controller_host is not defined or not primary_controller_host"
+
+    - fail: msg="primary_frontend_host is not configured"
+      when: "primary_frontend_host is not defined or not primary_frontend_host"
+
+#    - fail: msg="controller_ip is not configured"
+#      when: "controller_ip is not defined or not controller_ip"
+#
+#    - fail: msg="frontend_int_ip is not configured"
+#      when: "frontend_int_ip is not defined or not frontend_int_ip"
+#
+#    - fail: msg="frontend_ext_ip is not configured"
+#      when: "frontend_ext_ip is not defined or not frontend_ext_ip"
