@@ -11,7 +11,6 @@
       when: "admin_token is not defined or not admin_token"
       notify:
         - Ensure admin_token is set in group_var_all file
-        - Ensure admin_token is a fact variable
 
   handlers:
     - name: Ensure admin_token is set in group_var_all file
@@ -20,6 +19,3 @@
           dest=../../group_vars/all
           regexp="^admin_token:"
           line="admin_token: ${password.stdout_lines}"
-
-    - name: Ensure admin_token is a fact variable
-      set_fact: admin_token=${password.stdout_lines}

@@ -8,17 +8,13 @@
       command: /bin/true
       when: "primary_controller_host is not defined or not primary_controller_host"
       notify:
-        - Ensure primary_controller_host is a fact variable
         - Ensure primary_controller_host is set in group_var_all file
 
   handlers:
-    - name: Ensure primary_controller_host is a fact variable
-      set_fact: primary_controller_host={{ groups['controller'][0] }}
-
     - name: Ensure primary_controller_host is set in group_var_all file
       local_action: >
           lineinfile
           dest=../../group_vars/all
           regexp="^primary_controller_host:"
-          line="primary_controller_host: ${primary_controller_host}"
+          line="primary_controller_host: {{ groups['controller'][0] }}"
 

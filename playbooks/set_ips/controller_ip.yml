@@ -8,13 +8,9 @@
       command: /bin/true
       when: "controller_ip is not defined or not controller_ip"
       notify:
-        - Ensure controller_ip is a fact variable
         - Ensure controller_ip is set in group_var_all file
 
   handlers:
-    - name: Ensure controller_ip is a fact variable
-      set_fact: controller_ip={{ hostvars[primary_controller_host]['my_int_ip'] }}
-
     - name: Ensure controller_ip is set in group_var_all file
       local_action: >
           lineinfile

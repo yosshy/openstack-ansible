@@ -8,13 +8,9 @@
       command: /bin/true
       when: "frontend_int_ip is not defined or not frontend_int_ip"
       notify:
-        - Ensure frontend_int_ip is a fact variable
         - Ensure frontend_int_ip is set in group_var_all file
 
   handlers:
-    - name: Ensure frontend_int_ip is a fact variable
-      set_fact: frontend_int_ip={{ hostvars[primary_frontend_host]['my_int_ip'] }}
-
     - name: Ensure frontend_int_ip is set in group_var_all file
       local_action: >
           lineinfile
