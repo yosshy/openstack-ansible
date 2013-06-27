@@ -4,8 +4,6 @@
   gather_facts: yes
 
   tasks:
-    - action: setup
-
     - fail: msg="root_db_password is not configured"
       when: "root_db_password is not defined or not root_db_password"
 

@@ -1,0 +1,23 @@
+---
+- name: frontend_ext_ip
+  hosts: all[:1]
+  sudo: yes
+
+  tasks:
+    - name: Check frontend_ext_ip is set
+      command: /bin/true
+      when: "frontend_ext_ip is not defined or not frontend_ext_ip"
+      notify:
+        - Ensure frontend_ext_ip is a fact variable
+        - Ensure frontend_ext_ip is set in group_var_all file
+
+  handlers:
+    - name: Ensure frontend_ext_ip is a fact variable
+      set_fact: frontend_ext_ip={{ hostvars[primary_frontend_host]['my_ext_ip'] }}
+
+    - name: Ensure frontend_ext_ip is set in group_var_all file
+      local_action: >
+          lineinfile
+          dest=../../group_vars/all
+          regexp="^frontend_ext_ip:"
+          line="frontend_ext_ip: {{ hostvars[primary_frontend_host]['my_ext_ip'] }}"

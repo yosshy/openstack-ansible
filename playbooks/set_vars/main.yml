@@ -1,3 +1,18 @@
 ---
-- include: setup.yml
+- include: primary_controller_host.yml
+- include: primary_frontend_host.yml
+- include: cinder_db_password.yml
+- include: glance_db_password.yml
+- include: keystone_db_password.yml
+- include: nova_db_password.yml
+- include: quantum_db_password.yml
+- include: root_db_password.yml
+- include: cinder_identity_password.yml
+- include: ec2_identity_password.yml
+- include: glance_identity_password.yml
+- include: nova_identity_password.yml
+- include: quantum_identity_password.yml
+- include: swift_identity_password.yml
+- include: admin_password.yml
+- include: admin_token.yml
 - include: check.yml

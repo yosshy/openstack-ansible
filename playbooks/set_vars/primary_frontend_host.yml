@@ -1,0 +1,24 @@
+---
+- name: primary_frontend_host
+  hosts: all[:1]
+  sudo: yes
+
+  tasks:
+    - name: Check primary_frontend_host is set
+      command: /bin/true
+      when: "primary_frontend_host is not defined or not primary_frontend_host"
+      notify:
+        - Ensure primary_frontend_host is a fact variable
+        - Ensure primary_frontend_host is set in group_var_all file
+
+  handlers:
+    - name: Ensure primary_frontend_host is a fact variable
+      set_fact: primary_frontend_host={{ groups['frontend'][0] }}
+
+    - name: Ensure primary_frontend_host is set in group_var_all file
+      local_action: >
+          lineinfile
+          dest=../../group_vars/all
+          regexp="^primary_frontend_host:"
+          line="primary_frontend_host: ${primary_frontend_host}"
+
