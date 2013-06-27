@@ -6,11 +6,14 @@
   tasks:
     - action: setup
 
-    - fail: msg="controller_ip is not configured"
+    - name: Check controller_ip is set
+      fail: msg="controller_ip is automatically configured. Run the playbook again."
       when: "controller_ip is not defined or not controller_ip"
 
-    - fail: msg="frontend_int_ip is not configured"
+    - name: Check frontend_int_ip is set
+      fail: msg="frontend_int_ip is automatically configured. Run the playbook again."
       when: "frontend_int_ip is not defined or not frontend_int_ip"
 
-    - fail: msg="frontend_ext_ip is not configured"
+    - name: Check frontend_ext_ip is set
+      fail: msg="frontend_ext_ip is automatically configured. Run the playbook again."
       when: "frontend_ext_ip is not defined or not frontend_ext_ip"
