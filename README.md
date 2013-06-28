@@ -122,10 +122,35 @@ LAN で接続されている必要があります。外部 LAN で接続され�
      http_proxy: http://192.168.12.1:8123/
      ```
 
+     以下の項目が未設定の場合、Playbook 実行中に値を適当に設定しますが、
+     更新された all ファイルを途中でリロードする機能が Ansible に無い
+     ので、一旦実行が止まります。再実行して下さい。
+
+     ```
+     root_db_password
+     keystone_db_password
+     glance_db_password
+     nova_db_password
+     quantum_db_password
+     cinder_db_password
+     nova_identity_password
+     ec2_identity_password
+     swift_identity_password
+     quantum_identity_password
+     cinder_identity_password
+     admin_token
+     admin_password
+     primary_controller_host
+     primary_frontend_host
+     controller_ip
+     frontend_int_ip
+     frontend_ext_ip
+     ```
+
  8. Ansible を実行します。  
 
      ```
-     ansible-playbook -k -K site.yml
+     ansible-playbook -i ansible_hosts -k -K site.yml
      ```
 
     SSH パスワードを聞かれるので入力します。sudo パスワードも聞かれます
