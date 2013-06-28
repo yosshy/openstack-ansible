@@ -59,10 +59,10 @@ LAN で接続されている必要があります。外部 LAN で接続され�
     内部 LAN 共に DHCP でも構いませんが、DHCP を使用しない場合はOS イン
     ストール時に各ネットワークのパラメータを設定する必要があります。
 
- 2. Python の開発環境をインストールします。
+ 2. Python の開発環境と pwgen をインストールします。
 
      ```
-     sudo apt-get install -y python-dev
+     sudo apt-get install -y python-dev pwgen
      ```
 
  3. git で ansible をインストールします。
@@ -84,8 +84,8 @@ LAN で接続されている必要があります。外部 LAN で接続され�
  5. /etc/hosts に OpenStack インストール先サーバの設定を行います。この
     際、各ホストに設定する IP アドレスは内部LAN用である必要があります。
 
- 6. sample_hosts/* を参考に ansible_hosts ファイルを作成します。* はそれ
-    ぞれ以下の構成例です。
+ 6. sample_hosts/* を参考に、トップディレクトリに ansible_hosts ファイ
+    ルを作成します。* はそれぞれ以下の構成例です。
     * all-in-one : １サーバ構成（オールインワン）
     * 2roles : 制御ノード＋VMホスト構成
     * 3roles : 制御ノード＋VMホスト＋ネットワークゲートウェイ構成
