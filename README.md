@@ -84,15 +84,15 @@ LAN で接続されている必要があります。外部 LAN で接続され�
  5. /etc/hosts に OpenStack インストール先サーバの設定を行います。この
     際、各ホストに設定する IP アドレスは内部LAN用である必要があります。
 
- 6. hosts_* を参考に ansible_hosts ファイルを作成します。hosts_* はそれ
+ 6. sample_hosts/* を参考に ansible_hosts ファイルを作成します。* はそれ
     ぞれ以下の構成例です。
-    * hosts_allinone : １サーバ構成（オールインワン）
-    * hosts_2roles : 制御ノード＋VMホスト構成
-    * hosts_3roles : 制御ノード＋VMホスト＋ネットワークゲートウェイ構成
-    * hosts_5roles : 制御ノード、VMホスト、ネットワークゲートウェイ、フ
+    * all-in-one : １サーバ構成（オールインワン）
+    * 2roles : 制御ノード＋VMホスト構成
+    * 3roles : 制御ノード＋VMホスト＋ネットワークゲートウェイ構成
+    * 5roles : 制御ノード、VMホスト、ネットワークゲートウェイ、フ
       ロントエンド(API等）、ボリュームホスト構成
 
-    以下は hosts_2roles の例です。
+    以下は 2roles の例です。
      ```
      [controller]
      ansible2        ←インストール先ホスト名
@@ -150,12 +150,15 @@ LAN で接続されている必要があります。外部 LAN で接続され�
  8. Ansible を実行します。  
 
      ```
-     ansible-playbook -i ansible_hosts -k -K site.yml
+     ansible-playbook site.yml
      ```
 
     SSH パスワードを聞かれるので入力します。sudo パスワードも聞かれます
     が、デフォルト値が SSH パスワードになっているのでそのまま Enter で
     構いません。
+
+    SSH パスワード、sudo パスワードが不要な場合、ansible.cfg ファイル中の
+    当該パラメータの値を False にして下さい。
 
 謝辞
 ----
