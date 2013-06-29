@@ -19,6 +19,7 @@
       with_items:
         - nova-compute-qemu
         - python-mysqldb
+        - python-memcache
     
     - name: ensure nova.conf file is configured
       template: >

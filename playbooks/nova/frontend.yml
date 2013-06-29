@@ -21,6 +21,7 @@
         - nova-novncproxy
         - novnc
         - python-mysqldb
+        - python-memcache
     
     - name: ensure api-paste.ini file is configured
       copy: >
@@ -31,7 +32,7 @@
             mode=0660
             backup=yes
       notify:
-        - ensure nova-api are restarted
+        - ensure nova-api is restarted
     
     - name: ensure nova.conf file is configured
       template: >
@@ -51,12 +52,12 @@
             mode=0660
             backup=yes
       notify:
-        - ensure nova-api are restarted
-        - ensure nova-novncproxy are restarted
+        - ensure nova-api is restarted
+        - ensure nova-novncproxy is restarted
     
   handlers:
-    - name: ensure nova-api are restarted
+    - name: ensure nova-api is restarted
       service: name=nova-api state=restarted
     
-    - name: ensure nova-novncproxy are restarted
+    - name: ensure nova-novncproxy is restarted
       service: name=nova-novncproxy state=restarted

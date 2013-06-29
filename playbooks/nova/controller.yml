@@ -29,6 +29,7 @@
         - nova-scheduler
         - python-novaclient
         - python-mysqldb
+        - python-memcache
       notify:
         - ensure services are restarted
   
