@@ -6,3 +6,17 @@
   tasks:
     - name: ensure memcached package is installed
       apt: pkg=memcached
+
+    - name: ensure /etc/memcached.conf is configured
+      template: >
+             src=files/memcached.conf
+             dest=/etc/memcached.conf
+             owner=root
+             group=root
+             mode=0644
+      notify:
+        - restart memcached
+
+  handlers:
+    - name: restart memcached
+      service: name=memcached state=restarted
