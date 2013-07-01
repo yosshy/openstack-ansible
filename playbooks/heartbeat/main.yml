@@ -1,0 +1,31 @@
+---
+- name: HA Cluster with Heartbeat for Controllers
+  hosts: controller:frontend
+  gather_facts: yes
+  sudo: yes
+
+  tasks:
+    - name: ensure heartbeat package is installed
+      apt: pkg=heartbeat
+  
+    - name: ensure ha.cf file is configured
+      template: >
+             src=files/ha.cf
+             dest=/etc/ha.d/ha.cf
+             owner=root
+             group=root
+             mode=0644
+      notify: restart heartbeat
+  
+    - name: ensure authkeys file is configured
+      template: >
+             src=files/authkeys
+             dest=/etc/ha.d/authkeys
+             owner=root
+             group=root
+             mode=0600
+      notify: restart heartbeat
+
+  handlers:
+    - name: restart heartbeat
+      service: name=heartbeat state=restarted

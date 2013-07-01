@@ -1,0 +1,47 @@
+# Logging
+debug				1
+use_logd			false
+logfacility			daemon
+
+# Misc Options
+traditional_compression 	off
+compression			bz2
+coredumps			true
+
+# Communications
+udpport			691
+{% if 'controller' in group_names %}
+mcast			{{ my_int_if }} {{ mcast_address_controller }} 694 1 0
+{% endif %}
+{% if 'frontend' in group_names %}
+mcast			{{ my_int_if }} {{ mcast_address_frontend }} 694 1 0
+{% endif %}
+
+# Nodes
+{% set hosts = [] %}
+{% if 'controller' in group_names %}
+{% for host in groups['controller'] %}
+{% if 'host' not in group_names %}
+node				{{ host }}
+{% set hosts = hosts + [host] %}
+{% endif %}
+{% endfor %}
+{% endif %}
+{% if 'frontend' in group_names %}
+{% for host in groups['frontend'] %}
+{% if 'host' not in group_names %}
+node				{{ host }}
+{% set hosts = hosts + [host] %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+# Thresholds (in seconds)
+keepalive			2
+warntime			6
+deadtime			10
+initdead			20
+
+# Pacemaker
+crm				yes
+

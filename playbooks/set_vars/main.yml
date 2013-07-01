@@ -1,4 +1,5 @@
 ---
+- include: heartbeat_secret_key.yml
 - include: primary_controller_host.yml
 - include: primary_frontend_host.yml
 - include: cinder_db_password.yml

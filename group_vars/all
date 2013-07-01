@@ -10,6 +10,10 @@ log_verbose: False
 network_gateway: 192.168.0.254
 network_dns: 192.168.0.254
 
+# set below if you use multiple frontend/controller
+mcast_address_controller: 239.0.0.1
+mcast_address_frontend: 239.0.0.2
+
 http_proxy: http://192.168.12.1:8123/
 proxy_env:
   http_proxy: $http_proxy
@@ -23,6 +27,7 @@ ntp_server: $controller_ip
 
 # passwords
 
+#heartbeat_secret_key: eex4eeQu7aacha3n
 #root_db_password: kaaSh9oaqu8jooch
 #keystone_db_password: gee9cehee5DooBei
 #glance_db_password: bieFoh4theib5RiF
