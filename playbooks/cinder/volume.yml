@@ -52,6 +52,7 @@
       notify:
         - start loop device
         - restart tgt
+        - restart cinder services
   
   handlers:
     - name: restart cinder services
