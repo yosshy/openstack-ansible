@@ -15,7 +15,7 @@
         - $my_int_ip
     
     - name: ensure nova-compute package is installed
-      apt: pkg=$item
+      apt: pkg=$item force=yes
       with_items:
         - nova-compute-qemu
         - python-mysqldb

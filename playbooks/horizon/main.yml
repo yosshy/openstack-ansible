@@ -5,7 +5,7 @@
 
   tasks:
     - name: ensure horizon packages are installed
-      apt: pkg=$item update-cache=yes
+      apt: pkg=$item update-cache=yes force=yes
       with_items:
         - memcached
         - libapache2-mod-wsgi

@@ -5,7 +5,7 @@
 
   tasks:
     - name: ensure memcached package is installed
-      apt: pkg=memcached
+      apt: pkg=memcached force=yes
 
     - name: ensure /etc/memcached.conf is configured
       template: >

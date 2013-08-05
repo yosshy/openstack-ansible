@@ -20,7 +20,7 @@
       delegate_to: ${primary_controller_host}
     
     - name: ensure quantum-server and CLI packages are installed
-      apt: pkg=$item
+      apt: pkg=$item force=yes
       with_items:
         - quantum-server
         - python-cliff

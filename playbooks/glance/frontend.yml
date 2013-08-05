@@ -17,7 +17,7 @@
         - restart glance-api
     
     - name: ensure glance is installed
-      apt: pkg=$item
+      apt: pkg=$item force=yes
       with_items:
         - glance
         - python-mysqldb

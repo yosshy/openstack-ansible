@@ -15,7 +15,7 @@
       delegate_to: ${primary_controller_host}
   
     - name: ensure packages are installed
-      apt: pkg=$item
+      apt: pkg=$item force=yes
       with_items:
         - cinder-common
         - cinder-api

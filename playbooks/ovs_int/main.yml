@@ -6,7 +6,7 @@
 
   tasks:
     - name: ensure openvswitch-related packages are installed
-      apt: pkg=$item
+      apt: pkg=$item force=yes
       with_items:
         - openvswitch-common
         - openvswitch-datapath-dkms

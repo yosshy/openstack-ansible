@@ -5,4 +5,4 @@
 
   tasks:
     - name: ensure rabbitmq-server packages are installed
-      apt: pkg=rabbitmq-server
+      apt: pkg=rabbitmq-server force=yes

@@ -5,7 +5,7 @@
 
   tasks:
     - name: ensure ntp package is installed
-      apt: pkg=ntp
+      apt: pkg=ntp force=yes
       when: "ntp_server in ansible_all_ipv4_addresses"
   
     - name: ensure ntp.conf file is configured

@@ -21,7 +21,7 @@
       delegate_to: ${primary_controller_host}
     
     - name: ensure keystone package is installed
-      apt: pkg=$item
+      apt: pkg=$item state=latest force=yes
       with_items:
         - keystone
         - python-mysqldb
@@ -44,7 +44,8 @@
       notify: restart keystone
     
     - name: ensure keystone database is initialized
-      keystone_manage: action=db_sync
+      #keystone_manage: action=db_sync
+      command: /usr/bin/keystone-manage db_sync
       when: "ansible_hostname == primary_frontend_host"
       notify: restart keystone
     

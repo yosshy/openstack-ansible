@@ -9,7 +9,7 @@
       when: "ntp_server not in ansible_all_ipv4_addresses"
   
     - name: ensure ntpdate package is installed
-      apt: pkg=ntpdate
+      apt: pkg=ntpdate force=yes
       when: "ntp_server not in ansible_all_ipv4_addresses"
   
     - name: ensure /etc/cron.daily/ntpdate file is configured

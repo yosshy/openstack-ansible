@@ -21,7 +21,7 @@
         - ensure services are restarted
    
     - name: ensure nova packages are installed
-      apt: pkg=$item
+      apt: pkg=$item force=yes
       with_items:
         - nova-cert
         - nova-conductor

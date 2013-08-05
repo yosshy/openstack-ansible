@@ -15,7 +15,7 @@
       delegate_to: ${primary_controller_host}
     
     - name: ensure each quantum agents are installed
-      apt: name=$item
+      apt: name=$item force=yes
       with_items:
         - quantum-l3-agent
         - quantum-dhcp-agent

@@ -6,7 +6,7 @@
 
   tasks:
     - name: ensure mysql and mysql python client installed
-      apt: pkg=$item
+      apt: pkg=$item force=yes
       with_items:
         - python-mysqldb
         - mysql-server
