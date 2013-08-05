@@ -9,6 +9,7 @@
 - include: set_ips/main.yml
 - include: ntp/main.yml
 - include: ntpdate/main.yml
+#- include: heartbeat/main.yml
 - include: mysql/main.yml
 - include: rabbitmq/main.yml
 - include: memcached/main.yml
